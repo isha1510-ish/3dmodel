@@ -2,35 +2,48 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
+    <!-- MindAR Library for AR functionality -->
     <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/dist/mindar-image.prod.js"></script>
+    <!-- A-Frame Library for 3D and VR functionality -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <!-- MindAR integration with A-Frame -->
     <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/dist/mindar-image-aframe.prod.js"></script>
+    <!-- A-Frame Extras for additional features -->
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
 </head>
 <body>
+    <!-- A-Frame Scene with MindAR for AR experience -->
     <a-scene mindar-image="imageTargetSrc: ./targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights">
+        
+        <!-- Assets for the scene, including images and 3D models -->
         <a-assets>
-            <img id="btninsta" src="./idcard.jpg" crossorigin="anonymous">
+            <img id="btninsta" src="./idcard.jpg.jpeg" crossorigin="anonymous">
             <a-asset-item id="3dmodel" src="./scene.gltf"></a-asset-item>
         </a-assets>
         
+        <!-- Camera setup for AR experience -->
         <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="far: 10000; objects: .clickable"></a-camera>
 
+        <!-- AR target entity which will display the 3D model when the target is detected -->
         <a-entity id="example-target" mindar-image-target="targetIndex: 0">
+            <!-- 3D Model that will be displayed on target detection -->
             <a-entity gltf-model="#3dmodel" animation="property: position; to: 0 0.1 0.1; dur: 1000; easing:easeinoutquad; loop: true; dir: alternate" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0"></a-entity>
+            <!-- Clickable plane for interaction (e.g., button) -->
             <a-entity id="insta_click" class="clickable" geometry="primitive: plane; height: 0.3; width: 0.3;" position="0 -0.9 0" rotation="0 0 0" material="src: #btninsta; opacity: 1; transparent: true;"></a-entity>
         </a-entity>
     </a-scene>
 
     <script type="text/javascript">
+        // JavaScript to handle target found and lost events
         const exampleTarget = document.querySelector('#example-target');
+        
         exampleTarget.addEventListener("targetFound", event => {
-            console.log("target found");
+            console.log("Target found");
         });
 
         exampleTarget.addEventListener("targetLost", event => {
-            console.log("target lost");
+            console.log("Target lost");
         });
     </script>
 </body>
